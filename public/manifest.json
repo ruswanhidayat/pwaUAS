@@ -1,0 +1,21 @@
+{
+ "name": "Covid19 Dashboard - Indonesia",
+ "short_name": "Covid19 Dashboard - Indonesia",
+ "description": "Covid19 Dashboard - Indonesia",
+ "lang": "en-US",
+ "dir": "ltr",
+ "theme_color": "#afeeee",
+ "start_url": "/index.html",
+ "background_color": "#65b0bd",
+ "display": "standalone",
+ "orientation": "portrait-primary",
+ "icons": [{
+   "src": "assets/images/192x192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },{
+   "src": "assets/images/512x512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }]
+}
