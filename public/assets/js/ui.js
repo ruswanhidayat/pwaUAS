@@ -197,6 +197,7 @@ fetch(kumHarian)
     div3.innerHTML = `${nodes[maxInd].attributes.Jumlah_Pasien_Sembuh}`;
     div4.innerHTML = `${nodes[maxInd].attributes.Jumlah_Pasien_Meninggal}`;
 
+    div1.setAttribute("class", "prov");
     div2.setAttribute("class", "num");
     div3.setAttribute("class", "num");
     div4.setAttribute("class", "num");
@@ -228,6 +229,7 @@ fetch(perProv)
       tdsemb.innerHTML = `${author.attributes.Kasus_Semb}`;
       tdmeni.innerHTML = `${author.attributes.Kasus_Meni}`;
 
+      tdprov.setAttribute("class", "prov");
       tdposi.setAttribute("class", "num");
       tdsemb.setAttribute("class", "num");
       tdmeni.setAttribute("class", "num");

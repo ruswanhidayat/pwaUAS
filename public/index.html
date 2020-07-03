@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Covid19 Dashboard - Indonesia" />
     <!-- Mendeklarasikan warna yang muncul pada address bar Chrome versi seluler -->
@@ -30,10 +33,10 @@
       type="image/x-icon"
     />
     <link rel="canonical" href="https://cord-hallowed-tapir.glitch.me/" />
-    <script type="text/javascript">        
-        if (window.location.protocol != "https:") {
-           window.location.protocol = "https";
-        }
+    <script type="text/javascript">
+      if (window.location.protocol != "https:") {
+        window.location.protocol = "https";
+      }
     </script>
   </head>
 
@@ -48,16 +51,18 @@
       </div>
 
       <br />
-      <table id="tnas">
-        <thead>
-          <td width="40%">Wilayah</td>
-          <td width="20%">Positif</td>
-          <td width="20%">Sembuh</td>
-          <td width="20%">Meninggal</td>
+      <table>
+        <thead  id="tnas">
+          <tr>
+            <td width="40%">Wilayah</td>
+            <td width="20%">Positif</td>
+            <td width="20%">Sembuh</td>
+            <td width="20%">Meninggal</td>
+          </tr>
         </thead>
+        <tbody id="tprov">
+        </tbody>
       </table>
-
-      <table id="tprov"></table>
       <div id="foot"></div>
     </div>
 

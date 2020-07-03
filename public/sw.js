@@ -2,10 +2,9 @@ const staticCacheName = 'site-static-v1';
 const assets = [
   '/',
   '/index.html',
-  '/assets/js/graph.js',
-  '/assets/js/head.js',
-  '/assets/js/prov.js',
-  '/assets/js/script.js',
+  '/assets/js/ui.js',
+  '/assets/js/app.js',
+  '/assets/js/Chart.min.js',
   '/assets/css/style.css',
   '/assets/css/Chart.min.css',
   '/assets/images/192x192.png',
