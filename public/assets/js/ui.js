@@ -142,6 +142,7 @@ fetch(nasHarian)
         ]
       },
       options: {
+        axis: 'y',
         responsive: true,
         maintainAspectRatio: false,
         title: {

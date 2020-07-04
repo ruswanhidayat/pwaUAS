@@ -11,7 +11,7 @@ html {
   font-family: "Open Sans", sans-serif;
   line-height: 1.6;
   color: #666;
-  background: #F6F6F6;
+  background: #fafafa;
 }
 
 #root {
@@ -90,6 +90,7 @@ p {
 }
 
 .prov {
+  text-align: left;
   width: 40%;
 }
 

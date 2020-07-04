@@ -5,7 +5,7 @@
  "lang": "en-US",
  "dir": "ltr",
  "theme_color": "#afeeee",
- "start_url": "/index.html",
+ "start_url": ".",
  "background_color": "#65b0bd",
  "display": "standalone",
  "orientation": "portrait-primary",
