@@ -1,3 +1,4 @@
+/* ----- import font ----- */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
@@ -68,6 +69,7 @@ p {
   transition: all 0.2s linear;
 }
 
+/* ----- customize card *rh ----- */
 .card.card1 {
   background: #2C347C;
 }
@@ -84,6 +86,7 @@ p {
   background: #ceb546;
 }
 
+/* ----- customize table *rh ----- */
 .num {
   text-align: right;
   width: 20%;
@@ -139,10 +142,12 @@ table tr:hover {
   color: white;
 }
 
+/* ----- customize scrollbar *rh ----- */
 ::-webkit-scrollbar {
   width: 0px;
 }
 
+/* ----- responsive ----- */
 @media screen and (min-width: 150px) {
   .card {
     flex: 1 1 calc(100% - 2rem);

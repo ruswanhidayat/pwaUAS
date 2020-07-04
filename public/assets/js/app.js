@@ -1,3 +1,4 @@
+/* ----- 20200703, ini register service worker *rh ----- */
 if('serviceWorker' in navigator){
     navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log('service worker registered'))
