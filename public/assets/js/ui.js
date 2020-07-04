@@ -1,28 +1,30 @@
-/* ----- ini mulai logo sm card nasional ----- */
+/* ----- 20200702, ini const buat logo sm card nasional *rh ----- */
 const header = document.getElementById("root");
 const logo = document.createElement("img");
 const cont = document.createElement("div");
+// 20200703, disable, sama, pake kumHarian
 // const kumHarian2 =
 //  "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal&outSR=4326&f=json";
 
-/* ----- ini mulai graph ----- */
+/* ----- 20200703, ini const buat mulai graph *rh ----- */
 const nasHarian =
   "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Tanggal,Jumlah_Kasus_Baru_per_Hari&returnGeometry=false&orderByFields=Tanggal&outSR=4326&f=json";
 
-/* ----- ini mulai tabel nasional ----- */
+/* ----- 20200702, ini const buat tabel nasional *rh ----- */
 const tableNas = document.getElementById("tnas");
 const rowNas = document.createElement("tr");
+// 20200703, disable, sama, pake kumHarian
 // const kumHarian3 =
 //  "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal&outSR=4326&f=json";
 
-/* ----- ini mulai tabel per prov ----- */
+/* ----- 20200702, ini const buat tabel per prov *rh ----- */
 const tableProv = document.getElementById("tprov");
 const perProv =
   "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/COVID19_Indonesia_per_Provinsi/FeatureServer/0/query?where=FID%20%3E%3D%201%20AND%20FID%20%3C%3D%2034&outFields=Provinsi,Kasus_Posi,Kasus_Semb,Kasus_Meni,FID&returnGeometry=false&returnDistinctValues=true&orderByFields=FID&outSR=4326&f=json";
 const kumHarian =
   "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal&outSR=4326&f=json";
 
-/* ----- ini mulai logo sm card nasional ----- */
+/* ----- 20200702, ini mulai logo sm card nasional *rh ----- */
 logo.src = "assets/images/logo.png";
 logo.setAttribute("alt", "");
 cont.setAttribute("class", "container");
@@ -32,9 +34,9 @@ header.appendChild(cont);
 fetch(kumHarian)
   .then(resp => resp.json())
   .then(function(covid) {
-    let covid19 = covid.features;
+    let rh1 = covid.features;
 
-    var nodes = covid19, // data is your json
+    var nodes = rh1, // data is your json
       maxProp = "Jumlah_Kasus_Kumulatif",
       attr = "attributes",
       maxVal = 0,
@@ -104,15 +106,15 @@ fetch(kumHarian)
     console.log(error);
   });
 
-/* ----- ini mulai graph ----- */
+/* ----- 20200702, ini mulai graph *rh ----- */
 fetch(nasHarian)
   .then(resp => resp.json())
   .then(function(covid) {
-    let authors = covid.features;
-    var totalPosi = authors.filter(
-      authors =>
-        authors.attributes.Tanggal < new Date(Date.now()).getTime() &&
-        authors.attributes.Jumlah_Kasus_Baru_per_Hari != null
+    let rh5 = covid.features;
+    var totalPosi = rh5.filter(
+      rh5 =>
+        rh5.attributes.Tanggal < new Date(Date.now()).getTime() &&
+        rh5.attributes.Jumlah_Kasus_Baru_per_Hari != null
     );
     //console.log(totalPosi);
 
@@ -165,14 +167,14 @@ fetch(nasHarian)
     console.log(error);
   });
 
-/* ----- ini mulai tabel nasional ----- */
+/* ----- 20200702, ini mulai tabel nasional *rh ----- */
 tableNas.appendChild(rowNas);
 
 fetch(kumHarian)
   .then(resp => resp.json())
   .then(function(covid) {
-    let covid19 = covid.features;
-    var nodes = covid19, // data is your json
+    let rh2 = covid.features;
+    var nodes = rh2, // data is your json
       maxProp = "Jumlah_Kasus_Kumulatif",
       attr = "attributes",
       maxVal = 0,
@@ -212,23 +214,23 @@ fetch(kumHarian)
     console.log(error);
   });
 
-/* ----- ini mulai tabel per prov ----- */
+/* ----- 20200702, ini mulai tabel per prov *rh ----- */
 fetch(perProv)
   .then(resp => resp.json())
   .then(function(covid) {
-    let covid19 = covid.features;
+    let rh3 = covid.features;
 
-    return covid19.map(function(author) {
+    return rh3.map(function(corona) {
       let container = document.createElement("tr"),
         tdprov = document.createElement("td"),
         tdposi = document.createElement("td"),
         tdsemb = document.createElement("td"),
         tdmeni = document.createElement("td");
 
-      tdprov.innerHTML = `${author.attributes.Provinsi}`;
-      tdposi.innerHTML = `${author.attributes.Kasus_Posi}`;
-      tdsemb.innerHTML = `${author.attributes.Kasus_Semb}`;
-      tdmeni.innerHTML = `${author.attributes.Kasus_Meni}`;
+      tdprov.innerHTML = `${corona.attributes.Provinsi}`;
+      tdposi.innerHTML = `${corona.attributes.Kasus_Posi}`;
+      tdsemb.innerHTML = `${corona.attributes.Kasus_Semb}`;
+      tdmeni.innerHTML = `${corona.attributes.Kasus_Meni}`;
 
       tdprov.setAttribute("class", "prov");
       tdposi.setAttribute("class", "num");
@@ -249,11 +251,11 @@ fetch(perProv)
 fetch(perProv)
   .then(resp => resp.json())
   .then(function(covid) {
-    let covid19 = covid.features;
+    let rh4 = covid.features;
 
     // ambil total positif berdasarkan akumulasi per provinsi
-    var totalPosi = covid19.reduce(function(totalPos, author) {
-      return totalPos + author.attributes.Kasus_Posi;
+    var totalPosi = rh4.reduce(function(totalPos, rh) {
+      return totalPos + rh.attributes.Kasus_Posi;
     }, 0);
     console.log(totalPosi);
 
@@ -301,7 +303,7 @@ fetch(perProv)
     console.log(error);
   });
 
-/* ----- ini function longdate ----- */
+/* ----- 20200702, ini function get long date ----- */
 function getDate(timestamp) {
   var a = new Date(timestamp);
   var months = [
@@ -325,7 +327,7 @@ function getDate(timestamp) {
   return time;
 }
 
-/* ----- ini function short date ----- */
+/* ----- 20200702, ini function get short date ----- */
 function getShortDate(timestamp) {
   var a = new Date(timestamp);
   var months = [
