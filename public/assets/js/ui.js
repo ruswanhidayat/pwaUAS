@@ -2,27 +2,17 @@
 const header = document.getElementById("root");
 const logo = document.createElement("img");
 const cont = document.createElement("div");
-// 20200703, disable, sama, pake kumHarian
-// const kumHarian2 =
-//  "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal&outSR=4326&f=json";
-
-/* ----- 20200703, ini const buat mulai graph *rh ----- */
-const nasHarian =
-  "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Tanggal,Jumlah_Kasus_Baru_per_Hari&returnGeometry=false&orderByFields=Tanggal&outSR=4326&f=json";
 
 /* ----- 20200702, ini const buat tabel nasional *rh ----- */
 const tableNas = document.getElementById("tnas");
 const rowNas = document.createElement("tr");
-// 20200703, disable, sama, pake kumHarian
-// const kumHarian3 =
-//  "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal&outSR=4326&f=json";
 
 /* ----- 20200702, ini const buat tabel per prov *rh ----- */
 const tableProv = document.getElementById("tprov");
 const perProv =
   "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/COVID19_Indonesia_per_Provinsi/FeatureServer/0/query?where=FID%20%3E%3D%201%20AND%20FID%20%3C%3D%2034&outFields=Provinsi,Kasus_Posi,Kasus_Semb,Kasus_Meni,FID&returnGeometry=false&returnDistinctValues=true&orderByFields=FID&outSR=4326&f=json";
 const kumHarian =
-  "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal&outSR=4326&f=json";
+  "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal,Jumlah_Kasus_Baru_per_Hari&returnGeometry=false&orderByFields=Tanggal&outSR=4326&f=json";
 
 /* ----- 20200702, ini mulai logo sm card nasional *rh ----- */
 logo.src = "assets/images/logo.png";
@@ -31,13 +21,14 @@ cont.setAttribute("class", "container");
 header.appendChild(logo);
 header.appendChild(cont);
 
+let globalVar;
+
 fetch(kumHarian)
   .then(resp => resp.json())
-  .then(function(covid) {
+  .then(covid => {
     let rh1 = covid.features;
-
-    var nodes = rh1, // data is your json
-      maxProp = "Jumlah_Kasus_Kumulatif",
+    let nodes = rh1; // data is your json
+    let maxProp = "Jumlah_Kasus_Kumulatif",
       attr = "attributes",
       maxVal = 0,
       maxInd = 0;
@@ -51,6 +42,7 @@ fetch(kumHarian)
       }
     }
     // console.log(nodes[maxInd]);
+    globalVar = nodes[maxInd];
 
     let card = document.createElement("div"),
       h1 = document.createElement("h1"),
@@ -97,105 +89,19 @@ fetch(kumHarian)
     card4.appendChild(p4);
 
     let small = document.createElement("small");
-    small.innerHTML = `Data per ${getDate(
+    small.innerHTML = `Data per ${getShortDate(
       nodes[maxInd].attributes.Tanggal
     )}, Sumber: bnpb-inacovid19`;
     cont.appendChild(small);
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
 
-/* ----- 20200702, ini mulai graph *rh ----- */
-fetch(nasHarian)
-  .then(resp => resp.json())
-  .then(function(covid) {
-    let rh5 = covid.features;
-    var totalPosi = rh5.filter(
-      rh5 =>
-        rh5.attributes.Tanggal < new Date(Date.now()).getTime() &&
-        rh5.attributes.Jumlah_Kasus_Baru_per_Hari != null
-    );
-    //console.log(totalPosi);
-
-    var labels = totalPosi.map(function(e) {
-      return getShortDate(e.attributes.Tanggal);
-    });
-    //console.log(labels);
-
-    var data = totalPosi.map(function(e) {
-      return e.attributes.Jumlah_Kasus_Baru_per_Hari;
-    });
-    //console.log(data);
-
-    var ctx = document.getElementById("myChart").getContext("2d");
-    var myChart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "Penambahan Kasus",
-            data: data,
-            backgroundColor: "rgb(235, 247, 245)",
-            borderColor: "rgb(0, 124, 145)",
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        axis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: "Grafik Penambahan Konfirmasi Kasus Positif per Hari"
-        },
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true
-              }
-            }
-          ]
-        }
-      }
-    });
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
-
-/* ----- 20200702, ini mulai tabel nasional *rh ----- */
-tableNas.appendChild(rowNas);
-
-fetch(kumHarian)
-  .then(resp => resp.json())
-  .then(function(covid) {
-    let rh2 = covid.features;
-    var nodes = rh2, // data is your json
-      maxProp = "Jumlah_Kasus_Kumulatif",
-      attr = "attributes",
-      maxVal = 0,
-      maxInd = 0;
-
-    for (var i = 0; i < nodes.length; i++) {
-      var value = parseInt(nodes[i][attr][maxProp], 10);
-      // console.log(value);
-      if (value > maxVal) {
-        maxVal = value;
-        maxInd = i;
-      }
-    }
-    // console.log(nodes[maxInd]);
-
+    /* ----- 20200702, ini mulai tabel nasional *rh ----- */
+    tableNas.appendChild(rowNas);
     let div1 = document.createElement("td"),
       div2 = document.createElement("td"),
       div3 = document.createElement("td"),
       div4 = document.createElement("td");
 
-    div1.innerHTML = `Indonesia`;
+    div1.innerHTML = `Indonesia (Nasional)`;
     div2.innerHTML = `${nodes[maxInd].attributes.Jumlah_Kasus_Kumulatif}`;
     div3.innerHTML = `${nodes[maxInd].attributes.Jumlah_Pasien_Sembuh}`;
     div4.innerHTML = `${nodes[maxInd].attributes.Jumlah_Pasien_Meninggal}`;
@@ -210,80 +116,83 @@ fetch(kumHarian)
     rowNas.appendChild(div3);
     rowNas.appendChild(div4);
   })
-  .catch(function(error) {
-    console.log(error);
-  });
-
-/* ----- 20200702, ini mulai tabel per prov *rh ----- */
-fetch(perProv)
-  .then(resp => resp.json())
-  .then(function(covid) {
-    let rh3 = covid.features;
-
-    return rh3.map(function(corona) {
-      let container = document.createElement("tr"),
-        tdprov = document.createElement("td"),
-        tdposi = document.createElement("td"),
-        tdsemb = document.createElement("td"),
-        tdmeni = document.createElement("td");
-
-      tdprov.innerHTML = `${corona.attributes.Provinsi}`;
-      tdposi.innerHTML = `${corona.attributes.Kasus_Posi}`;
-      tdsemb.innerHTML = `${corona.attributes.Kasus_Semb}`;
-      tdmeni.innerHTML = `${corona.attributes.Kasus_Meni}`;
-
-      tdprov.setAttribute("class", "prov");
-      tdposi.setAttribute("class", "num");
-      tdsemb.setAttribute("class", "num");
-      tdmeni.setAttribute("class", "num");
-
-      tableProv.appendChild(container);
-      container.appendChild(tdprov);
-      container.appendChild(tdposi);
-      container.appendChild(tdsemb);
-      container.appendChild(tdmeni);
-    });
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
-
-fetch(perProv)
-  .then(resp => resp.json())
-  .then(function(covid) {
-    let rh4 = covid.features;
-
-    // ambil total positif berdasarkan akumulasi per provinsi
-    var totalPosi = rh4.reduce(function(totalPos, rh) {
-      return totalPos + rh.attributes.Kasus_Posi;
-    }, 0);
-    console.log(totalPosi);
-
-    // ambil total positif dari data harian (nasional)
+  .then(covGraph => {
+    /* ----- 20200702, ini mulai graph *rh ----- */
     fetch(kumHarian)
-      .then(response => response.json())
-      .then(function(corona) {
-        let cek = corona.features;
+      .then(resp => resp.json())
+      .then(covid => {
+        let rh5 = covid.features;
+        var totalPosi = rh5.filter(
+          rh5 =>
+            rh5.attributes.Tanggal < new Date(Date.now()).getTime() &&
+            rh5.attributes.Jumlah_Kasus_Baru_per_Hari !== null
+        );
+        //console.log(totalPosi);
 
-        var nodes = cek, // data is your json
-          maxProp = "Jumlah_Kasus_Kumulatif",
-          attr = "attributes",
-          maxVal = 0,
-          maxInd = 0;
+        var labels = totalPosi.map(function(e) {
+          return getShortDate(e.attributes.Tanggal);
+        });
+        //console.log(labels);
 
-        for (var i = 0; i < nodes.length; i++) {
-          var value = parseInt(nodes[i][attr][maxProp], 10);
-          // console.log(value);
-          if (value > maxVal) {
-            maxVal = value;
-            maxInd = i;
+        var data = totalPosi.map(function(e) {
+          return e.attributes.Jumlah_Kasus_Baru_per_Hari;
+        });
+        //console.log(data);
+
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Penambahan Kasus",
+                data: data,
+                backgroundColor: "rgb(235, 247, 245)",
+                borderColor: "rgb(0, 124, 145)",
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            axis: "y",
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+              display: true,
+              text: "Grafik Penambahan Konfirmasi Kasus Positif per Hari"
+            },
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }
+              ]
+            }
           }
-        }
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  })
+  .then(covProv => {
+    /* ----- 20200702, ini mulai tabel per prov *rh ----- */
+    fetch(perProv)
+      .then(resp => resp.json())
+      .then(function(covid) {
+        let rh3 = covid.features;
+        // ambil total positif berdasarkan akumulasi per provinsi
+        var totalPosi = rh3.reduce(function(totalPos, rh) {
+          return totalPos + rh.attributes.Kasus_Posi;
+        }, 0);
+        console.log(totalPosi);
 
-        console.log(nodes[maxInd].attributes.Jumlah_Kasus_Kumulatif); // array with maximal nodeId
-
+        console.log(globalVar.attributes.Jumlah_Kasus_Kumulatif); // array with maximal nodeId
         // bandingin akumulasi provinsi sama total nasional
-        if (totalPosi < nodes[maxInd].attributes.Jumlah_Kasus_Kumulatif) {
+        if (totalPosi < globalVar.attributes.Jumlah_Kasus_Kumulatif) {
           let small = document.createElement("small");
           small.innerHTML = `Data per Wilayah belum update. Terdapat perbedaan antara akumulasi data per wilayah dengan nasional.`;
           const foot = document.getElementById("foot");
@@ -294,6 +203,30 @@ fetch(perProv)
           const foot = document.getElementById("foot");
           foot.appendChild(small);
         }
+
+        return rh3.map(function(corona) {
+          let container = document.createElement("tr"),
+            tdprov = document.createElement("td"),
+            tdposi = document.createElement("td"),
+            tdsemb = document.createElement("td"),
+            tdmeni = document.createElement("td");
+
+          tdprov.innerHTML = `${corona.attributes.Provinsi}`;
+          tdposi.innerHTML = `${corona.attributes.Kasus_Posi}`;
+          tdsemb.innerHTML = `${corona.attributes.Kasus_Semb}`;
+          tdmeni.innerHTML = `${corona.attributes.Kasus_Meni}`;
+
+          tdprov.setAttribute("class", "prov");
+          tdposi.setAttribute("class", "num");
+          tdsemb.setAttribute("class", "num");
+          tdmeni.setAttribute("class", "num");
+
+          tableProv.appendChild(container);
+          container.appendChild(tdprov);
+          container.appendChild(tdposi);
+          container.appendChild(tdsemb);
+          container.appendChild(tdmeni);
+        });
       })
       .catch(function(error) {
         console.log(error);
@@ -303,50 +236,15 @@ fetch(perProv)
     console.log(error);
   });
 
-/* ----- 20200702, ini function get long date ----- */
-function getDate(timestamp) {
-  var a = new Date(timestamp);
-  var months = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember"
-  ];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var time = date + " " + month + " " + year;
-  return time;
-}
-
 /* ----- 20200702, ini function get short date ----- */
 function getShortDate(timestamp) {
   var a = new Date(timestamp);
-  var months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "Mei",
-    "Jun",
-    "Jul",
-    "Agu",
-    "Sep",
-    "Okt",
-    "Nov",
-    "Des"
-  ];
   var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var time = date + " " + month + " " + year;
+  var month = (a.getMonth() + 1).toString().padStart(2, "0");
+  var date = a
+    .getDate()
+    .toString()
+    .padStart(2, "0");
+  var time = date + "/" + month + "/" + year;
   return time;
 }
