@@ -17,32 +17,30 @@
       name="apple-mobile-web-app-title"
       content="Covid19 Dashboard - Indonesia"
     />
-    <link rel="apple-touch-icon" href="assets/images/192x192.png" />
+    <link
+      rel="apple-touch-icon"
+      href="https://cdn.glitch.com/e52c8aff-aeae-49cc-88d6-ec810914178b%2F192x192-min.png?v=1593705086357"
+    />
     <!-- Mendeklarasikan ikon untuk Windows -->
-    <meta name="msapplication-TileImage" content="/assets/images/192x192.png" />
+    <meta
+      name="msapplication-TileImage"
+      content="https://cdn.glitch.com/e52c8aff-aeae-49cc-88d6-ec810914178b%2F192x192-min.png?v=1593705086357"
+    />
     <meta name="msapplication-TileColor" content="#65b0bd" />
     <meta name="msapplication-navbutton-color" content="#65b0bd" />
 
     <title>Covid19 - Cases in Indonesia</title>
-    <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/style.min.css" rel="stylesheet" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="assets/images/fav.ico" type="image/x-icon" />
     <link
       rel="shortcut icon"
-      href="assets/images/fav.ico"
+      href="https://cdn.glitch.com/e52c8aff-aeae-49cc-88d6-ec810914178b%2Ffavicon.ico?v=1593703901711"
       type="image/x-icon"
     />
     <link rel="canonical" href="https://cord-hallowed-tapir.glitch.me/" />
-    <script type="text/javascript">
-      if (window.location.protocol != "https:") {
-        window.location.protocol = "https";
-      }
-    </script>
   </head>
 
   <body>
-    <script src="assets/js/Chart.min.js"></script>
-
     <div>
       <div id="root"></div>
 
@@ -52,7 +50,7 @@
 
       <br />
       <table>
-        <thead  id="tnas">
+        <thead id="tnas">
           <tr>
             <td width="40%">Wilayah</td>
             <td width="20%">Positif</td>
@@ -60,13 +58,13 @@
             <td width="20%">Meninggal</td>
           </tr>
         </thead>
-        <tbody id="tprov">
-        </tbody>
+        <tbody id="tprov"></tbody>
       </table>
       <div id="foot"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="/assets/js/app.js"></script>
-    <script src="/assets/js/ui.js"></script>
+    <script src="/assets/js/ui.min.js"></script>
   </body>
 </html>
