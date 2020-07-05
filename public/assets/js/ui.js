@@ -15,7 +15,7 @@ const kumHarian =
   "https://services5.arcgis.com/VS6HdKS0VfIhv8Ct/arcgis/rest/services/Statistik_Perkembangan_COVID19_Indonesia/FeatureServer/0/query?where=1%3D1&outFields=Jumlah_Kasus_Kumulatif,Jumlah_Pasien_Sembuh,Jumlah_Pasien_Meninggal,Jumlah_pasien_dalam_perawatan,Tanggal,Jumlah_Kasus_Baru_per_Hari&returnGeometry=false&orderByFields=Tanggal&outSR=4326&f=json";
 
 /* ----- 20200702, ini mulai logo sm card nasional *rh ----- */
-logo.src = "assets/images/logo.png";
+logo.src = "https://cdn.glitch.com/e52c8aff-aeae-49cc-88d6-ec810914178b%2Fimage-min.png?v=1593705089551";
 logo.setAttribute("alt", "");
 cont.setAttribute("class", "container");
 header.appendChild(logo);
